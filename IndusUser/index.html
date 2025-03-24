@@ -29,11 +29,8 @@
         <label for="companyName">Company Name:</label>
         <input type="text" id="companyName" name="companyName" required />
 
-        <label for="contactPerson">Contact Person:</label>
-        <input type="text" id="contactPerson" name="contactPerson" required />
-
-        <label for="phone">Phone Number:</label>
-        <input type="tel" id="phone" name="phone" required />
+        <label for="contactDetails">Contact Details:</label>
+        <input type="text" id="contactDetails" name="contactDetails" required />
 
         <!-- email id -->
         <label for="email">Email ID:</label>
@@ -53,7 +50,7 @@
 
         <button type="submit">Submit Request</button>
       </form>
-    </div>
+    </div>
     <div class="container" id="pastReqs" style="display: none">
       <h1>Past Requests</h1>
       <table id="pastRequestsTable">
@@ -79,6 +76,41 @@
           section.style.display = section.id === sectionId ? 'block' : 'none';
         });
       }
+      document.getElementById('requestForm').addEventListener('submit', function (event) {
+        event.preventDefault();
+        alert('Request submitted successfully!');
+        this.reset();
+      });
+      
+      // fetch data from JSON file
+      async function fetchData() {
+        const response = await fetch('../data.json');
+        return response.json();
+      }
+
+      // populate past requests table
+      async function populatePastRequests() {
+        const data = await fetchData();
+        const tableBody = document.querySelector('#pastRequestsTable tbody');
+        tableBody.innerHTML = '';
+
+        data.induspastrequests.forEach((request) => {
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td>${request.date}</td>
+            <td>${request.name}</td>
+            <td>${request.item}</td>
+            <td>${request.quantity}</td>
+            <td>${request.status}</td>
+          `;
+          tableBody.appendChild(row);
+        });
+      }
+      // Call the function to populate past requests on page load
+      document.addEventListener('DOMContentLoaded', () => {
+        populatePastRequests();
+      });
+
     </script>
   </body>
 </html>

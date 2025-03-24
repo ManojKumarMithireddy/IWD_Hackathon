@@ -7,6 +7,7 @@ body {
   align-items: center;
   height: 100vh;
   margin: 0;
+  font-weight: 700;
 }
 
 .container {
@@ -138,4 +139,8 @@ body {
 
 .sign-up a {
   font-size: 28px;
+}
+
+a{
+  text-decoration: none;
 }

@@ -81,34 +81,32 @@
     </div>
 
     <script>
-        function showSection(sectionId) {
-            const sections = document.querySelectorAll('.container');
-            sections.forEach(section => {
-                section.style.display = section.id === sectionId ? 'block' : 'none';
-            });
+    function showSection(sectionId) {
+        const sections = document.querySelectorAll('.container');
+        sections.forEach(section => {
+            section.style.display = section.id === sectionId ? 'block' : 'none';
+        });
+    }
+    
+    // Fetch data from JSON file
+    async function fetchData() {
+        try {
+            const response = await fetch('../data.json');
+            return await response.json();
+        } catch (error) {
+            console.error('Error fetching data:', error);
+            return null;
         }
-        // dummydata for past submissions date name items status
-        let dummydata = {
-            pastRequests: [
-                { date: '2023-01-15', name: 'John Doe', items: 'Old Laptop, Mobile Phone', status: 'Completed' },
-                { date: '2023-02-10', name: 'Jane Smith', items: 'Printer, Keyboard', status: 'Pending' },
-                { date: '2023-03-05', name: 'Alice Johnson', items: 'Monitor, Mouse', status: 'Completed' }
-            ],
-            leaderboard: [
-                { rank: 1, name: 'John Doe', points: 150 },
-                { rank: 2, name: 'Jane Smith', points: 120 },
-                { rank: 3, name: 'Alice Johnson', points: 100 }
-            ],
-            rewards: {
-                totalPoints: 370,
-                redeemed: ['Gift Card - $10', 'Reusable Water Bottle']
-            }
-        }
-        // on dom content loaded
-        document.addEventListener('DOMContentLoaded', () => {
-            // Populate past requests table
-            const pastRequestsTableBody = document.querySelector('#pastRequestsTable tbody');
-            dummydata.pastRequests.forEach(request => {
+    }
+    
+    // Populate the page with data
+    document.addEventListener('DOMContentLoaded', async () => {
+        const data = await fetchData();
+        if (!data) return; // Exit if data fetch failed
+    
+        // Populate past requests table
+        const pastRequestsTableBody = document.querySelector('#pastRequestsTable tbody');
+        data.userpastRequests.forEach(request => {
             const row = document.createElement('tr');
             row.innerHTML = `
                 <td>${request.date}</td>
@@ -117,11 +115,11 @@
                 <td>${request.status}</td>
             `;
             pastRequestsTableBody.appendChild(row);
-            });
-
-            // Populate leaderboard table
-            const leaderboardTableBody = document.querySelector('#leaderboardTable tbody');
-            dummydata.leaderboard.forEach(entry => {
+        });
+    
+        // Populate leaderboard table
+        const leaderboardTableBody = document.querySelector('#leaderboardTable tbody');
+        data.leaderboard.forEach(entry => {
             const row = document.createElement('tr');
             row.innerHTML = `
                 <td>${entry.rank}</td>
@@ -129,17 +127,16 @@
                 <td>${entry.points}</td>
             `;
             leaderboardTableBody.appendChild(row);
-            });
-
-            // Populate rewards section
-            document.querySelector('#totalPoints').textContent = dummydata.rewards.totalPoints;
-            const redeemedRewardsList = document.querySelector('#redeemedRewards');
-            dummydata.rewards.redeemed.forEach(reward => {
+        });
+    
+        // Populate rewards section
+        document.querySelector('#totalPoints').textContent = data.rewards.totalPoints;
+        const redeemedRewardsList = document.querySelector('#redeemedRewards');
+        data.rewards.redeemed.forEach(reward => {
             const listItem = document.createElement('li');
             listItem.textContent = reward;
             redeemedRewardsList.appendChild(listItem);
-            });
         });
-    </script>
+    });</script>
 </body>
 </html>

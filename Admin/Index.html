@@ -9,7 +9,7 @@
 <body>
     <div class="header">
         <div class="welcome">E-Waste Management System</div>
-        <a href="../index.html"><button id="logoutButton" >Logout</button></a>
+        <a href="../index.html"><button id="logoutButton">Logout</button></a>
     </div>
     <nav class="menu">
         <ul>
@@ -87,12 +87,97 @@
     </div>
 
     <script>
+        async function fetchData() {
+            const response = await fetch('../data.json');
+            return response.json();
+        }
+
         function showSection(sectionId) {
             const sections = document.querySelectorAll('.container');
             sections.forEach(section => {
                 section.style.display = section.id === sectionId ? 'block' : 'none';
             });
         }
+
+        function populateAccountsTable(accounts) {
+            const tableBody = document.querySelector('#accountsTable tbody');
+            tableBody.innerHTML = '';
+            accounts.forEach(account => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${account.type}</td>
+                    <td>${account.name}</td>
+                    <td>${account.email}</td>
+                    <td>${account.status}</td>
+                    <td><button onclick="editAccount('${account.name}')">Edit</button></td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+
+        function populateRequestsTable(requests) {
+            const tableBody = document.querySelector('#requestsTable tbody');
+            tableBody.innerHTML = '';
+            requests.forEach(request => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${request.date}</td>
+                    <td>${request.name}</td>
+                    <td>${request.items}</td>
+                    <td>${request.quantity}</td>
+                    <td>${request.status}</td>
+                    <td><button onclick="editRequest('${request.name}')">Edit</button></td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+
+        function populateIncentivesTable(rewards) {
+            const tableBody = document.querySelector('#incentivesTable tbody');
+            tableBody.innerHTML = '';
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>All Users</td>
+                <td>${rewards.totalPoints}</td>
+                <td>${rewards.redeemed.join(', ')}</td>
+                <td><button onclick="editIncentive()">Edit</button></td>
+            `;
+            tableBody.appendChild(row);
+        }
+
+        function populateLeaderboardTable(leaderboard) {
+            const tableBody = document.querySelector('#leaderboardTable tbody');
+            tableBody.innerHTML = '';
+            leaderboard.forEach(entry => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${entry.rank}</td>
+                    <td>${entry.name}</td>
+                    <td>${entry.points}</td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+
+        function editAccount(accountName) {
+            alert(`Edit account: ${accountName}`);
+        }
+
+        function editRequest(requestName) {
+            alert(`Edit request by: ${requestName}`);
+        }
+
+        function editIncentive() {
+            alert('Edit incentive system');
+        }
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            const data = await fetchData();
+            populateAccountsTable(data.accounts);
+            populateRequestsTable(data.userpastRequests);
+            populateIncentivesTable(data.rewards);
+            populateLeaderboardTable(data.leaderboard);
+        });
     </script>
 </body>
 </html>
