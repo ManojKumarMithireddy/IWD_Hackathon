@@ -1,0 +1,153 @@
+body {
+    font-family: Arial, sans-serif;
+    background-image: url('https://media.licdn.com/dms/image/D4D12AQGiGVA4ul-nSg/article-cover_image-shrink_720_1280/0/1717041144911?e=2147483647&v=beta&t=qwerDelKeAQqBHrwz5APrC3_RPWa4glJLr1Wvehg2Yg') ;
+    background-size: cover;
+    backdrop-filter: blur(5px);
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh; /* Changed to 100vh for full viewport height */
+    width: 100%;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 40px;
+    background-color: #161179;
+    width: 100%;
+    box-sizing: border-box; /* Added to include padding in the width */
+}
+
+.welcome {
+    color: #fff;
+    font-size: 3.2em;
+    font-weight: bold; /* Added font-weight for emphasis */
+    font-family:  monospace; /* Changed font for a more distinct look */
+}
+
+#logoutButton {
+    background-color: #dc3545;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    padding: 10px 20px; /* Changed width to padding for better responsiveness */
+}
+
+#logoutButton:hover {
+    background-color: #c82333;
+}
+
+.menu {
+    width: 100%;
+    background-color: #161179;
+    padding: 10px 0;
+    box-sizing: border-box;
+}
+
+.menu ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+}
+
+.menu ul li {
+    margin: 0 15px;
+}
+
+.menu ul li button {
+    color: #fff;
+    text-decoration: none;
+    font-size: 1.1em;
+}
+
+.menu ul li button:hover {
+    text-decoration: underline;
+    background-color: #fff;
+    color: #161179;
+}
+
+.container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: 600px;
+    margin-top: 40px;
+    box-sizing: border-box; /* Added to include padding in the width */
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    margin-bottom: 5px;
+}
+
+input, textarea {
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 100%;
+    box-sizing: border-box; /* Added to include padding and border in the width */
+}
+
+button {
+    background-color: #161179;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    padding: 10px; /* Added padding for consistency */
+    border-radius: 4px; /* Added border-radius for consistency */
+}
+
+/* styles for table */
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: left;
+}
+
+th {
+    background-color: #161179;
+    color: #fff;
+    font-weight: bold;
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+tr:hover {
+    background-color: #f1f1f1;
+}
+
+#rewards{
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}

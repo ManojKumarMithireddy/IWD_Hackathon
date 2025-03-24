@@ -1,0 +1,119 @@
+''<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - E-Waste Management</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        
+        #signup-container {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            backdrop-filter: blur(10px);
+        }
+        h2 {
+            text-align: center;
+            color: #004080;
+        }
+        input, select, button {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #004080;
+            border-radius: 5px;
+            display: block;
+            background: white;
+            color: #004080;
+        }
+        button {
+            background-color: #004080;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #003366;
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+            color: #004080;
+        }
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            margin-top: 10px;
+        }
+        .checkbox-container input {
+            width: auto;
+            margin-right: 10px;
+        }
+        #industrial-fields {
+            display: none;
+            margin-top: 10px;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 5px;
+            color: #004080;
+        }
+    </style>
+</head>
+<body>
+    <div id="signup-container">
+        <h2>Sign Up</h2>
+        <form id="signup-form">
+            <input type="text" id="full-name" placeholder="Full Name" required>
+            <input type="email" id="email" placeholder="Email Address" required>
+            <input type="text" id="phone" placeholder="Phone Number" required>
+            <input type="text" id="username" placeholder="Username" required>
+            <input type="password" id="password" placeholder="Password" required>
+            <input type="password" id="confirm-password" placeholder="Confirm Password" required>
+            
+            <label for="user-type">User Type:</label>
+            <select id="user-type" onchange="toggleFields()">
+                <option value="normal">Normal User</option>
+                <option value="industrial">Industrial User</option>
+            </select>
+            
+            <input type="text" id="location" placeholder="City, State, Country" required>
+            
+            <div id="industrial-fields">
+                <input type="text" id="company-name" placeholder="Company / Industry Name">
+                <input type="text" id="business-reg" placeholder="Business Registration Number">
+                <select id="industry-type">
+                    <option value="recycling">Recycling</option>
+                    <option value="manufacturing">Manufacturing</option>
+                </select>
+                <label>Materials of Interest:</label>
+                <input type="checkbox" value="Copper"> Copper
+                <input type="checkbox" value="Aluminum"> Aluminum
+                <input type="checkbox" value="Batteries"> Batteries
+            </div>
+            
+            <div class="checkbox-container">
+                <input type="checkbox" id="terms" required>
+                <label for="terms">Accept Terms & Conditions</label>
+            </div>
+            
+            <button type="submit">Sign Up</button>
+        </form>
+    </div>
+    
+    <script>
+        function toggleFields() {
+            let userType = document.getElementById("user-type").value;
+            let industrialFields = document.getElementById("industrial-fields");
+            if (userType === "industrial") {
+                industrialFields.style.display = "block";
+            } else {
+                industrialFields.style.display = "none";
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In - E-Waste Management</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        #signin-container {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            backdrop-filter: blur(10px);
+            border-color: #003366;
+            border-width: 2px;
+        }
+        h2 {
+            text-align: center;
+            color: #004080;
+        }
+        input, button {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #004080;
+            border-radius: 5px;
+            display: block;
+            background: white;
+            color: #004080;
+        }
+        button {
+            background-color: #004080;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #003366;
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+            color: #004080;
+        }
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            margin-top: 10px;
+        }
+        .checkbox-container input {
+            width: auto;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="signin-container">
+        <h2>Sign In</h2>
+        <form id="signin-form">
+            <input type="text" id="username" placeholder="Username" required>
+            <input type="password" id="password" placeholder="Password" required>
+
+            <div class="checkbox-container">
+                <input type="checkbox" id="remember-me">
+                <label for="remember-me">Remember Me</label>
+            </div>
+
+            <button type="submit">Sign In</button>
+        </form>
+    </div>
+    <script>
+      document.getElementById('signin-form').addEventListener('submit', function(event) {
+          event.preventDefault();
+          const username = document.getElementById('username').value;
+          const password = document.getElementById('password').value;
+  
+          // Perform sign-in logic here (e.g., send data to server)
+          console.log('Username:', username);
+          console.log('Password:', password);
+          // Determine user type based on username or other criteria
+          let usertype = 'NormUser'; // Example: hardcoded for demonstration
+          
+  
+          // Redirect to the main page after successful sign-in
+          if (usertype === 'IndusUser') {
+              window.location.href = './IndusUser/index.html';
+          } else if (usertype === 'NormUser') {
+              window.location.href = './NormUser/index.html';
+          }
+      });
+  </script>
+</body>
+</html>
+<!-- js for submit -->

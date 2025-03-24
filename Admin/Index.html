@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="header">
+        <div class="welcome">E-Waste Management System</div>
+        <a href="../index.html"><button id="logoutButton" >Logout</button></a>
+    </div>
+    <nav class="menu">
+        <ul>
+            <li><button onclick="showSection('manageAccounts')">Manage Accounts</button></li>
+            <li><button onclick="showSection('requests')">Collection Requests</button></li>
+            <li><button onclick="showSection('incentives')">Incentive System</button></li>
+            <li><button onclick="showSection('leaderboard')">Leaderboard</button></li>
+        </ul>
+    </nav>
+    <div class="container" id="manageAccounts">
+        <h1>Manage User and Industry Accounts</h1>
+        <table id="accountsTable">
+            <thead>
+                <tr>
+                    <th>Account Type</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Accounts will be populated here -->
+            </tbody>
+        </table>
+    </div>
+    <div class="container" id="requests" style="display:none;">
+        <h1>Collection and Recycling Requests</h1>
+        <table id="requestsTable">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Requestor</th>
+                    <th>Items</th>
+                    <th>Quantity</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Requests will be populated here -->
+            </tbody>
+        </table>
+    </div>
+    <div class="container" id="incentives" style="display:none;">
+        <h1>Incentive System</h1>
+        <table id="incentivesTable">
+            <thead>
+                <tr>
+                    <th>User</th>
+                    <th>Points Earned</th>
+                    <th>Rewards Redeemed</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Incentives will be populated here -->
+            </tbody>
+        </table>
+    </div>
+    <div class="container" id="leaderboard" style="display:none;">
+        <h1>Leaderboard</h1>
+        <table id="leaderboardTable">
+            <thead>
+                <tr>
+                    <th>Rank</th>
+                    <th>Name</th>
+                    <th>Points</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Leaderboard data will be populated here -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        function showSection(sectionId) {
+            const sections = document.querySelectorAll('.container');
+            sections.forEach(section => {
+                section.style.display = section.id === sectionId ? 'block' : 'none';
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Waste Collection Request</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="header">
+        <div class="welcome">E-Waste Management System</div>
+        <a href="../index.html"><button id="logoutButton" >Logout</button></a>
+    </div>
+    <nav class="menu">
+        <ul>
+            <li><button onclick="showSection('request')">Request for E-waste collection</button></li>
+            <li><button onclick="showSection('pastReqs')">Past Submission Requests</button></li>
+            <li><button onclick="showSection('rewards')">Rewards Earned</button></li>
+            <li><button onclick="showSection('leaderBoard')">Leaderboard</button></li>
+        </ul>
+    </nav>
+    <div class="container" id="request">
+        <h1>Request E-Waste Collection</h1>
+        <form id="requestForm">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="phone">Phone Number:</label>
+            <input type="tel" id="phone" name="phone" required>
+
+            <label for="address">Address:</label>
+            <textarea id="address" name="address" required></textarea>
+
+            <label for="pickupDate">Preferred Pickup Date:</label>
+            <input type="date" id="pickupDate" name="pickupDate" required>
+
+            <label for="items">Items to Collect:</label>
+            <textarea id="items" name="items" required></textarea>
+
+            <button type="submit">Submit Request</button>
+        </form>
+    </div>
+    <div class="container" id="pastReqs" style="display:none;">
+        <h1>Past Submission Requests</h1>
+        <table id="pastRequestsTable">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Name</th>
+                    <th>Items Collected</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Past requests will be populated here -->
+            </tbody>
+        </table>
+    </div>
+    <div class="container" id="rewards" style="display:none;">
+        <h1>Rewards Earned</h1>
+        <p>Total Points Earned: <span id="totalPoints">0</span></p>
+        <p>Rewards Redeemed:</p>
+        <ul id="redeemedRewards">
+            <!-- Redeemed rewards will be listed here -->
+        </ul>
+    </div>
+    <div class="container" id="leaderBoard" style="display:none;">
+        <h1>Leaderboard</h1>
+        <table id="leaderboardTable">
+            <thead>
+                <tr>
+                    <th>Rank</th>
+                    <th>Name</th>
+                    <th>Points</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Leaderboard data will be populated here -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        function showSection(sectionId) {
+            const sections = document.querySelectorAll('.container');
+            sections.forEach(section => {
+                section.style.display = section.id === sectionId ? 'block' : 'none';
+            });
+        }
+        // dummydata for past submissions date name items status
+        let dummydata = {
+            pastRequests: [
+                { date: '2023-01-15', name: 'John Doe', items: 'Old Laptop, Mobile Phone', status: 'Completed' },
+                { date: '2023-02-10', name: 'Jane Smith', items: 'Printer, Keyboard', status: 'Pending' },
+                { date: '2023-03-05', name: 'Alice Johnson', items: 'Monitor, Mouse', status: 'Completed' }
+            ],
+            leaderboard: [
+                { rank: 1, name: 'John Doe', points: 150 },
+                { rank: 2, name: 'Jane Smith', points: 120 },
+                { rank: 3, name: 'Alice Johnson', points: 100 }
+            ],
+            rewards: {
+                totalPoints: 370,
+                redeemed: ['Gift Card - $10', 'Reusable Water Bottle']
+            }
+        }
+        // on dom content loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            // Populate past requests table
+            const pastRequestsTableBody = document.querySelector('#pastRequestsTable tbody');
+            dummydata.pastRequests.forEach(request => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${request.date}</td>
+                <td>${request.name}</td>
+                <td>${request.items}</td>
+                <td>${request.status}</td>
+            `;
+            pastRequestsTableBody.appendChild(row);
+            });
+
+            // Populate leaderboard table
+            const leaderboardTableBody = document.querySelector('#leaderboardTable tbody');
+            dummydata.leaderboard.forEach(entry => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${entry.rank}</td>
+                <td>${entry.name}</td>
+                <td>${entry.points}</td>
+            `;
+            leaderboardTableBody.appendChild(row);
+            });
+
+            // Populate rewards section
+            document.querySelector('#totalPoints').textContent = dummydata.rewards.totalPoints;
+            const redeemedRewardsList = document.querySelector('#redeemedRewards');
+            dummydata.rewards.redeemed.forEach(reward => {
+            const listItem = document.createElement('li');
+            listItem.textContent = reward;
+            redeemedRewardsList.appendChild(listItem);
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Industrial E-Waste Collection Request</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="header">
+      <div class="welcome">E-Waste Management System</div>
+      <a href="../index.html"><button id="logoutButton">Logout</button></a>
+    </div>
+    <nav class="menu">
+      <ul>
+        <li
+          ><button onclick="showSection('request')"
+            >Request for E-waste</button
+          ></li
+        >
+        <li
+          ><button onclick="showSection('pastReqs')">Past Requests</button></li
+        >
+      </ul>
+    </nav>
+    <div class="container" id="request">
+      <h1>Request E-Waste</h1>
+      <form id="requestForm">
+        <label for="companyName">Company Name:</label>
+        <input type="text" id="companyName" name="companyName" required />
+
+        <label for="contactPerson">Contact Person:</label>
+        <input type="text" id="contactPerson" name="contactPerson" required />
+
+        <label for="phone">Phone Number:</label>
+        <input type="tel" id="phone" name="phone" required />
+
+        <!-- email id -->
+        <label for="email">Email ID:</label>
+        <input type="email" id="email" name="email" required />
+
+        <label for="address">Address:</label>
+        <textarea id="address" name="address" required></textarea>
+
+        <label for="pickupDate">Preferred Delivery Date:</label>
+        <input type="date" id="pickupDate" name="pickupDate" required />
+
+        <label for="items">Items Requested:</label>
+        <textarea id="items" name="items" required></textarea>
+
+        <label for="quantity">Quantity:</label>
+        <input type="number" id="quantity" name="quantity" required />
+
+        <button type="submit">Submit Request</button>
+      </form>
+    </div>
+    <div class="container" id="pastReqs" style="display: none">
+      <h1>Past Requests</h1>
+      <table id="pastRequestsTable">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Company Name</th>
+            <th>Items Requested</th>
+            <th>Quantity</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Past requests will be populated here -->
+        </tbody>
+      </table>
+    </div>
+
+    <script>
+      function showSection(sectionId) {
+        const sections = document.querySelectorAll('.container');
+        sections.forEach((section) => {
+          section.style.display = section.id === sectionId ? 'block' : 'none';
+        });
+      }
+    </script>
+  </body>
+</html>
