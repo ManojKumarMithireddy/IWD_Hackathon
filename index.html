@@ -497,13 +497,15 @@
             }
     
             // Redirect to the appropriate dashboard after successful sign-in
+            let redirectUrl;
             if (usertype === 'IndusUser') {
-                window.location.href = './IndusUser/';
+                redirectUrl = './IndusUser/';
             } else if (usertype === 'NormUser') {
-                window.location.href = './NormUser/';
+                redirectUrl = './NormUser/';
             } else if (usertype === 'Admin') {
-                window.location.href = './Admin/';
+                redirectUrl = './Admin/';
             }
+            window.location.href = redirectUrl;
         });
         
         // Check for remembered username
