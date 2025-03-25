@@ -3,113 +3,886 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Admin Dashboard | E-Waste Management</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #2e86ab;
+            --primary-dark: #1b5299;
+            --secondary-color: #f18f01;
+            --accent-color: #c73e1d;
+            --light-color: #f5f5f5;
+            --dark-color: #333;
+            --success-color: #4caf50;
+            --error-color: #f44336;
+            --box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--light-color);
+            color: var(--dark-color);
+            line-height: 1.6;
+        }
+
+        .dashboard {
+            display: grid;
+            grid-template-columns: 240px 1fr;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            background-color: var(--primary-dark);
+            color: white;
+            padding: 1.5rem 0;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            box-shadow: var(--box-shadow);
+            transition: var(--transition);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 2rem;
+            padding: 0 1rem;
+        }
+
+        .brand-icon {
+            font-size: 1.8rem;
+            margin-right: 0.5rem;
+            color: var(--secondary-color);
+        }
+
+        .brand-name {
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        .nav-menu {
+            list-style: none;
+        }
+
+        .nav-item {
+            margin-bottom: 0.5rem;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 0.8rem 1.5rem;
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            border-left: 4px solid var(--secondary-color);
+        }
+
+        .nav-link i {
+            margin-right: 0.8rem;
+            font-size: 1.1rem;
+            width: 20px;
+            text-align: center;
+        }
+
+        /* Main Content Styles */
+        .main-content {
+            padding: 1.5rem;
+            transition: var(--transition);
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .page-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--primary-dark);
+        }
+
+        .user-menu {
+            display: flex;
+            align-items: center;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 0.5rem;
+            font-weight: bold;
+        }
+
+        .logout-btn {
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            transition: var(--transition);
+        }
+
+        .logout-btn:hover {
+            background-color: #a5331a;
+        }
+
+        .logout-btn i {
+            margin-right: 0.5rem;
+        }
+
+        /* Dashboard Cards */
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: var(--box-shadow);
+            transition: var(--transition);
+            border-top: 4px solid var(--primary-color);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .stat-card.primary {
+            border-top-color: var(--primary-color);
+        }
+
+        .stat-card.secondary {
+            border-top-color: var(--secondary-color);
+        }
+
+        .stat-card.warning {
+            border-top-color: #ff9800;
+        }
+
+        .stat-card.danger {
+            border-top-color: var(--accent-color);
+        }
+
+        .stat-title {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .stat-title i {
+            margin-right: 0.5rem;
+        }
+
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--primary-dark);
+        }
+
+        .stat-change {
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .stat-change.positive {
+            color: var(--success-color);
+        }
+
+        .stat-change.negative {
+            color: var(--error-color);
+        }
+
+        /* Table Styles */
+        .table-container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: var(--box-shadow);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            overflow-x: auto;
+            transition: var(--transition);
+        }
+
+        .table-container:hover {
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .table-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--primary-dark);
+        }
+
+        .search-box {
+            display: flex;
+            align-items: center;
+            background-color: var(--light-color);
+            border-radius: 4px;
+            padding: 0.5rem 1rem;
+            width: 250px;
+            transition: var(--transition);
+        }
+
+        .search-box:hover {
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .search-box input {
+            border: none;
+            background: transparent;
+            outline: none;
+            width: 100%;
+            padding: 0.3rem;
+        }
+
+        .search-box i {
+            color: #666;
+            margin-right: 0.5rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        th {
+            background-color: var(--primary-color);
+            color: white;
+            font-weight: 500;
+        }
+
+        tr:hover {
+            background-color: rgba(0, 0, 0, 0.02);
+        }
+
+        .status {
+            display: inline-block;
+            padding: 0.3rem 0.6rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .status.pending {
+            background-color: #fff3e0;
+            color: #ff9800;
+        }
+
+        .status.completed {
+            background-color: #e8f5e9;
+            color: var(--success-color);
+        }
+
+        .status.cancelled {
+            background-color: #ffebee;
+            color: var(--error-color);
+        }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn i {
+            margin-right: 0.5rem;
+        }
+
+        .btn-sm {
+            padding: 0.3rem 0.6rem;
+            font-size: 0.8rem;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .btn-secondary {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background-color: #d17d01;
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            color: var(--dark-color);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--light-color);
+        }
+
+        .action-btns {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                height: auto;
+                position: relative;
+            }
+
+            .nav-menu {
+                display: flex;
+                overflow-x: auto;
+                padding-bottom: 1rem;
+            }
+
+            .nav-item {
+                margin-bottom: 0;
+                margin-right: 0.5rem;
+            }
+
+            .nav-link {
+                border-radius: 4px;
+                border-left: none;
+            }
+
+            .nav-link:hover, .nav-link.active {
+                border-left: none;
+                border-bottom: 3px solid var(--secondary-color);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .stats-container {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .user-menu {
+                margin-top: 1rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .stats-container {
+                grid-template-columns: 1fr;
+            }
+
+            .search-box {
+                width: 100%;
+                margin-top: 1rem;
+            }
+
+            .table-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
 </head>
 <body>
-    <div class="header">
-        <div class="welcome">E-Waste Management System</div>
-        <a href="../index.html"><button id="logoutButton">Logout</button></a>
-    </div>
-    <nav class="menu">
-        <ul>
-            <li><button onclick="showSection('manageAccounts')">Manage Accounts</button></li>
-            <li><button onclick="showSection('requests')">Collection Requests</button></li>
-            <li><button onclick="showSection('incentives')">Incentive System</button></li>
-            <li><button onclick="showSection('leaderboard')">Leaderboard</button></li>
-        </ul>
-    </nav>
-    <div class="container" id="manageAccounts">
-        <h1>Manage User and Industry Accounts</h1>
-        <table id="accountsTable">
-            <thead>
-                <tr>
-                    <th>Account Type</th>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Status</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Accounts will be populated here -->
-            </tbody>
-        </table>
-    </div>
-    <div class="container" id="requests" style="display:none;">
-        <h1>Collection and Recycling Requests</h1>
-        <table id="requestsTable">
-            <thead>
-                <tr>
-                    <th>Date</th>
-                    <th>Requestor</th>
-                    <th>Items</th>
-                    <th>Quantity</th>
-                    <th>Status</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Requests will be populated here -->
-            </tbody>
-        </table>
-    </div>
-    <div class="container" id="incentives" style="display:none;">
-        <h1>Incentive System</h1>
-        <table id="incentivesTable">
-            <thead>
-                <tr>
-                    <th>User</th>
-                    <th>Points Earned</th>
-                    <th>Rewards Redeemed</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Incentives will be populated here -->
-            </tbody>
-        </table>
-    </div>
-    <div class="container" id="leaderboard" style="display:none;">
-        <h1>Leaderboard</h1>
-        <table id="leaderboardTable">
-            <thead>
-                <tr>
-                    <th>Rank</th>
-                    <th>Name</th>
-                    <th>Points</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Leaderboard data will be populated here -->
-            </tbody>
-        </table>
+    <div class="dashboard">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="brand">
+                <div class="brand-icon">
+                    <i class="fas fa-recycle"></i>
+                </div>
+                <div class="brand-name">E-Waste Admin</div>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="#" class="nav-link active" onclick="showSection('dashboard')">
+                        <i class="fas fa-tachometer-alt"></i>
+                        Dashboard
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" onclick="showSection('manageAccounts')">
+                        <i class="fas fa-users-cog"></i>
+                        Manage Accounts
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" onclick="showSection('requests')">
+                        <i class="fas fa-clipboard-list"></i>
+                        Collection Requests
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" onclick="showSection('incentives')">
+                        <i class="fas fa-award"></i>
+                        Incentive System
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" onclick="showSection('leaderboard')">
+                        <i class="fas fa-trophy"></i>
+                        Leaderboard
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" onclick="showSection('reports')">
+                        <i class="fas fa-chart-bar"></i>
+                        Reports
+                    </a>
+                </li>
+            </ul>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Dashboard Header -->
+            <div class="header">
+                <h1 class="page-title" id="pageTitle">Dashboard Overview</h1>
+                <div class="user-menu">
+                    <div class="user-avatar">AD</div>
+                    <button class="logout-btn" onclick="location.href='../index.html'">
+                        <i class="fas fa-sign-out-alt"></i>
+                        Logout
+                    </button>
+                </div>
+            </div>
+
+            <!-- Dashboard Overview Section -->
+            <div class="container" id="dashboard">
+                <div class="stats-container">
+                    <div class="stat-card primary">
+                        <div class="stat-title">
+                            <i class="fas fa-users"></i>
+                            Total Users
+                        </div>
+                        <div class="stat-value">1,248</div>
+                        <div class="stat-change positive">
+                            <i class="fas fa-arrow-up"></i>
+                            12% from last month
+                        </div>
+                    </div>
+                    <div class="stat-card secondary">
+                        <div class="stat-title">
+                            <i class="fas fa-clipboard-check"></i>
+                            Active Requests
+                        </div>
+                        <div class="stat-value">86</div>
+                        <div class="stat-change positive">
+                            <i class="fas fa-arrow-up"></i>
+                            5% from last week
+                        </div>
+                    </div>
+                    <div class="stat-card warning">
+                        <div class="stat-title">
+                            <i class="fas fa-clock"></i>
+                            Pending Requests
+                        </div>
+                        <div class="stat-value">24</div>
+                        <div class="stat-change negative">
+                            <i class="fas fa-arrow-down"></i>
+                            3% from last week
+                        </div>
+                    </div>
+                    <div class="stat-card danger">
+                        <div class="stat-title">
+                            <i class="fas fa-recycle"></i>
+                            E-Waste Collected (kg)
+                        </div>
+                        <div class="stat-value">2,415</div>
+                        <div class="stat-change positive">
+                            <i class="fas fa-arrow-up"></i>
+                            18% from last month
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table-container">
+                    <div class="table-header">
+                        <h2 class="section-title">Recent Collection Requests</h2>
+                        <div class="search-box">
+                            <i class="fas fa-search"></i>
+                            <input type="text" placeholder="Search requests...">
+                        </div>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Request ID</th>
+                                <th>Date</th>
+                                <th>Requestor</th>
+                                <th>Items</th>
+                                <th>Quantity</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>#EWR-2023-056</td>
+                                <td>2023-06-15</td>
+                                <td>John Smith</td>
+                                <td>Laptops, Phones</td>
+                                <td>12 items</td>
+                                <td><span class="status completed">Completed</span></td>
+                                <td>
+                                    <div class="action-btns">
+                                        <button class="btn btn-outline btn-sm">
+                                            <i class="fas fa-eye"></i> View
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>#EWR-2023-055</td>
+                                <td>2023-06-14</td>
+                                <td>Acme Corp</td>
+                                <td>Monitors, Printers</td>
+                                <td>25 items</td>
+                                <td><span class="status pending">Pending</span></td>
+                                <td>
+                                    <div class="action-btns">
+                                        <button class="btn btn-primary btn-sm">
+                                            <i class="fas fa-check"></i> Approve
+                                        </button>
+                                        <button class="btn btn-outline btn-sm">
+                                            <i class="fas fa-eye"></i> View
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>#EWR-2023-054</td>
+                                <td>2023-06-13</td>
+                                <td>Sarah Johnson</td>
+                                <td>Mobile Phones</td>
+                                <td>8 items</td>
+                                <td><span class="status completed">Completed</span></td>
+                                <td>
+                                    <div class="action-btns">
+                                        <button class="btn btn-outline btn-sm">
+                                            <i class="fas fa-eye"></i> View
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>#EWR-2023-053</td>
+                                <td>2023-06-12</td>
+                                <td>Tech Solutions Inc</td>
+                                <td>Servers, Networking</td>
+                                <td>5 items</td>
+                                <td><span class="status cancelled">Cancelled</span></td>
+                                <td>
+                                    <div class="action-btns">
+                                        <button class="btn btn-outline btn-sm">
+                                            <i class="fas fa-eye"></i> View
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>#EWR-2023-052</td>
+                                <td>2023-06-11</td>
+                                <td>Michael Brown</td>
+                                <td>Tablets, Accessories</td>
+                                <td>15 items</td>
+                                <td><span class="status pending">Pending</span></td>
+                                <td>
+                                    <div class="action-btns">
+                                        <button class="btn btn-primary btn-sm">
+                                            <i class="fas fa-check"></i> Approve
+                                        </button>
+                                        <button class="btn btn-outline btn-sm">
+                                            <i class="fas fa-eye"></i> View
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Manage Accounts Section -->
+            <div class="container" id="manageAccounts" style="display:none;">
+                <div class="table-container">
+                    <div class="table-header">
+                        <h2 class="section-title">Manage User and Industry Accounts</h2>
+                        <div class="search-box">
+                            <i class="fas fa-search"></i>
+                            <input type="text" placeholder="Search accounts...">
+                        </div>
+                    </div>
+                    <table id="accountsTable">
+                        <thead>
+                            <tr>
+                                <th>Account Type</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Accounts will be populated here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Collection Requests Section -->
+            <div class="container" id="requests" style="display:none;">
+                <div class="table-container">
+                    <div class="table-header">
+                        <h2 class="section-title">Collection and Recycling Requests</h2>
+                        <div class="search-box">
+                            <i class="fas fa-search"></i>
+                            <input type="text" placeholder="Search requests...">
+                        </div>
+                    </div>
+                    <table id="requestsTable">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Requestor</th>
+                                <th>Items</th>
+                                <th>Quantity</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Requests will be populated here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Incentive System Section -->
+            <div class="container" id="incentives" style="display:none;">
+                <div class="table-container">
+                    <div class="table-header">
+                        <h2 class="section-title">Incentive System</h2>
+                        <button class="btn btn-primary">
+                            <i class="fas fa-plus"></i> Add New Reward
+                        </button>
+                    </div>
+                    <table id="incentivesTable">
+                        <thead>
+                            <tr>
+                                <th>User</th>
+                                <th>Points Earned</th>
+                                <th>Rewards Redeemed</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Incentives will be populated here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Leaderboard Section -->
+            <div class="container" id="leaderboard" style="display:none;">
+                <div class="table-container">
+                    <div class="table-header">
+                        <h2 class="section-title">Leaderboard</h2>
+                        <div class="search-box">
+                            <i class="fas fa-search"></i>
+                            <input type="text" placeholder="Search users...">
+                        </div>
+                    </div>
+                    <table id="leaderboardTable">
+                        <thead>
+                            <tr>
+                                <th>Rank</th>
+                                <th>Name</th>
+                                <th>Points</th>
+                                <th>E-Waste (kg)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Leaderboard data will be populated here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Reports Section -->
+            <div class="container" id="reports" style="display:none;">
+                <div class="table-container">
+                    <div class="table-header">
+                        <h2 class="section-title">System Reports</h2>
+                        <div>
+                            <button class="btn btn-primary">
+                                <i class="fas fa-download"></i> Export
+                            </button>
+                            <button class="btn btn-secondary">
+                                <i class="fas fa-calendar"></i> Date Range
+                            </button>
+                        </div>
+                    </div>
+                    <div style="padding: 2rem; text-align: center;">
+                        <i class="fas fa-chart-pie" style="font-size: 5rem; color: #e0e0e0; margin-bottom: 1rem;"></i>
+                        <h3 style="color: #666; margin-bottom: 1rem;">Reports Dashboard</h3>
+                        <p style="color: #666; max-width: 500px; margin: 0 auto;">
+                            Generate detailed reports on e-waste collection, user participation, and environmental impact.
+                            Select date ranges and metrics to analyze system performance.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </main>
     </div>
 
     <script>
-        async function fetchData() {
-            const response = await fetch('../data.json');
-            return response.json();
-        }
+        // Sample data - in a real app, this would come from an API
+        const sampleData = {
+            accounts: [
+                { type: "User", name: "John Doe", email: "john@example.com", status: "Active" },
+                { type: "Industry", name: "GreenTech Recycling", email: "info@greentech.com", status: "Active" },
+                { type: "User", name: "Jane Smith", email: "jane@example.com", status: "Inactive" },
+                { type: "Industry", name: "EcoDispose Inc", email: "contact@ecodispose.com", status: "Pending" }
+            ],
+            requests: [
+                { date: "2023-06-15", name: "John Smith", items: "Laptops, Phones", quantity: "12", status: "Completed" },
+                { date: "2023-06-14", name: "Acme Corp", items: "Monitors, Printers", quantity: "25", status: "Pending" },
+                { date: "2023-06-13", name: "Sarah Johnson", items: "Mobile Phones", quantity: "8", status: "Completed" },
+                { date: "2023-06-12", name: "Tech Solutions Inc", items: "Servers, Networking", quantity: "5", status: "Cancelled" }
+            ],
+            rewards: {
+                totalPoints: 15820,
+                redeemed: ["Gift Cards", "Discount Coupons", "Merchandise"]
+            },
+            leaderboard: [
+                { rank: 1, name: "Eco Warrior", points: 4250, waste: 85 },
+                { rank: 2, name: "Green Champion", points: 3980, waste: 79 },
+                { rank: 3, name: "Recycle Master", points: 3750, waste: 75 },
+                { rank: 4, name: "Planet Saver", points: 3200, waste: 64 },
+                { rank: 5, name: "E-Waste Hero", points: 2980, waste: 59 }
+            ]
+        };
 
+        // DOM elements
+        const pageTitle = document.getElementById('pageTitle');
+        const navLinks = document.querySelectorAll('.nav-link');
+
+        // Show section function
         function showSection(sectionId) {
-            const sections = document.querySelectorAll('.container');
-            sections.forEach(section => {
-                section.style.display = section.id === sectionId ? 'block' : 'none';
+            // Hide all sections
+            document.querySelectorAll('.container').forEach(section => {
+                section.style.display = 'none';
             });
+            
+            // Show selected section
+            document.getElementById(sectionId).style.display = 'block';
+            
+            // Update active nav link
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('onclick').includes(sectionId)) {
+                    link.classList.add('active');
+                }
+            });
+            
+            // Update page title
+            const activeLink = document.querySelector('.nav-link.active');
+            if (activeLink) {
+                const titleText = activeLink.textContent.trim();
+                pageTitle.textContent = titleText;
+            }
         }
 
+        // Populate tables with sample data
         function populateAccountsTable(accounts) {
             const tableBody = document.querySelector('#accountsTable tbody');
             tableBody.innerHTML = '';
+            
             accounts.forEach(account => {
+                const statusClass = account.status === 'Active' ? 'completed' : 
+                                  account.status === 'Pending' ? 'pending' : 'cancelled';
+                
                 const row = document.createElement('tr');
                 row.innerHTML = `
                     <td>${account.type}</td>
                     <td>${account.name}</td>
                     <td>${account.email}</td>
-                    <td>${account.status}</td>
-                    <td><button onclick="editAccount('${account.name}')">Edit</button></td>
+                    <td><span class="status ${statusClass}">${account.status}</span></td>
+                    <td>
+                        <div class="action-btns">
+                            <button class="btn btn-outline btn-sm" onclick="editAccount('${account.name}')">
+                                <i class="fas fa-edit"></i> Edit
+                            </button>
+                            <button class="btn btn-outline btn-sm">
+                                <i class="fas fa-trash-alt"></i> Delete
+                            </button>
+                        </div>
+                    </td>
                 `;
                 tableBody.appendChild(row);
             });
@@ -118,15 +891,28 @@
         function populateRequestsTable(requests) {
             const tableBody = document.querySelector('#requestsTable tbody');
             tableBody.innerHTML = '';
+            
             requests.forEach(request => {
+                const statusClass = request.status === 'Completed' ? 'completed' : 
+                                  request.status === 'Pending' ? 'pending' : 'cancelled';
+                
                 const row = document.createElement('tr');
                 row.innerHTML = `
                     <td>${request.date}</td>
                     <td>${request.name}</td>
                     <td>${request.items}</td>
                     <td>${request.quantity}</td>
-                    <td>${request.status}</td>
-                    <td><button onclick="editRequest('${request.name}')">Edit</button></td>
+                    <td><span class="status ${statusClass}">${request.status}</span></td>
+                    <td>
+                        <div class="action-btns">
+                            <button class="btn btn-outline btn-sm" onclick="editRequest('${request.name}')">
+                                <i class="fas fa-edit"></i> Edit
+                            </button>
+                            <button class="btn btn-outline btn-sm">
+                                <i class="fas fa-eye"></i> View
+                            </button>
+                        </div>
+                    </td>
                 `;
                 tableBody.appendChild(row);
             });
@@ -135,12 +921,19 @@
         function populateIncentivesTable(rewards) {
             const tableBody = document.querySelector('#incentivesTable tbody');
             tableBody.innerHTML = '';
+            
             const row = document.createElement('tr');
             row.innerHTML = `
                 <td>All Users</td>
-                <td>${rewards.totalPoints}</td>
+                <td>${rewards.totalPoints.toLocaleString()}</td>
                 <td>${rewards.redeemed.join(', ')}</td>
-                <td><button onclick="editIncentive()">Edit</button></td>
+                <td>
+                    <div class="action-btns">
+                        <button class="btn btn-outline btn-sm" onclick="editIncentive()">
+                            <i class="fas fa-edit"></i> Edit
+                        </button>
+                    </div>
+                </td>
             `;
             tableBody.appendChild(row);
         }
@@ -148,17 +941,20 @@
         function populateLeaderboardTable(leaderboard) {
             const tableBody = document.querySelector('#leaderboardTable tbody');
             tableBody.innerHTML = '';
+            
             leaderboard.forEach(entry => {
                 const row = document.createElement('tr');
                 row.innerHTML = `
                     <td>${entry.rank}</td>
                     <td>${entry.name}</td>
-                    <td>${entry.points}</td>
+                    <td>${entry.points.toLocaleString()}</td>
+                    <td>${entry.waste}</td>
                 `;
                 tableBody.appendChild(row);
             });
         }
 
+        // Edit functions
         function editAccount(accountName) {
             alert(`Edit account: ${accountName}`);
         }
@@ -171,12 +967,16 @@
             alert('Edit incentive system');
         }
 
-        document.addEventListener('DOMContentLoaded', async () => {
-            const data = await fetchData();
-            populateAccountsTable(data.accounts);
-            populateRequestsTable(data.userpastRequests);
-            populateIncentivesTable(data.rewards);
-            populateLeaderboardTable(data.leaderboard);
+        // Initialize the dashboard
+        document.addEventListener('DOMContentLoaded', () => {
+            // Show dashboard by default
+            showSection('dashboard');
+            
+            // Populate tables with sample data
+            populateAccountsTable(sampleData.accounts);
+            populateRequestsTable(sampleData.requests);
+            populateIncentivesTable(sampleData.rewards);
+            populateLeaderboardTable(sampleData.leaderboard);
         });
     </script>
 </body>

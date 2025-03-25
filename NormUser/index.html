@@ -4,139 +4,537 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>E-Waste Collection Request</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+    <style>
+        :root {
+            --primary-color: #2e86ab;
+            --primary-dark: #1b5299;
+            --secondary-color: #f18f01;
+            --accent-color: #c73e1d;
+            --light-color: #f5f5f5;
+            --dark-color: #333;
+            --success-color: #4caf50;
+            --error-color: #f44336;
+            --box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+        /* dark theme */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f9f9f9;
+            color: var(--dark-color);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary-color));
+            color: white;
+            box-shadow: var(--box-shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .welcome {
+            font-size: 1.8rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        #logoutButton {
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 30px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        #logoutButton:hover {
+            background-color: #a13319;
+            transform: translateY(-2px);
+        }
+
+        .menu {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 70px;
+            z-index: 99;
+        }
+
+        .menu ul {
+            display: flex;
+            list-style: none;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .menu ul li {
+            flex: 1;
+            text-align: center;
+        }
+
+        .menu ul li button {
+            width: 100%;
+            padding: 1rem;
+            background: none;
+            border: none;
+            border-bottom: 3px solid transparent;
+            font-weight: 500;
+            color: var(--dark-color);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .menu ul li button:hover {
+            background-color: rgba(46, 134, 171, 0.1);
+            color: var(--primary-color);
+            border-bottom-color: var(--secondary-color);
+        }
+
+        .main-content {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .container {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: var(--box-shadow);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            transition: var(--transition);
+            display: none;
+        }
+
+        .container.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 {
+            color: var(--primary-dark);
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+            text-align: center;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+
+        h1::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background-color: var(--secondary-color);
+        }
+
+        form {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--primary-dark);
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-family: 'Poppins', sans-serif;
+            transition: var(--transition);
+        }
+
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(46, 134, 171, 0.2);
+        }
+
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-block {
+            display: block;
+            width: 100%;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        th {
+            background-color: var(--primary-color);
+            color: white;
+            font-weight: 500;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        .points-display {
+            text-align: center;
+            margin: 2rem 0;
+        }
+
+        .points-value {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--secondary-color);
+            margin: 1rem 0;
+        }
+
+        .reward-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            border-bottom: 1px solid #eee;
+            transition: var(--transition);
+        }
+
+        .reward-item:hover {
+            background-color: #f8f9fa;
+        }
+
+        .reward-name {
+            font-weight: 500;
+        }
+
+        .reward-date {
+            color: #777;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                padding: 1rem;
+            }
+
+            .welcome {
+                margin-bottom: 1rem;
+                font-size: 1.5rem;
+            }
+
+            .menu ul {
+                flex-direction: column;
+            }
+
+            .menu ul li button {
+                border-bottom: 1px solid #eee;
+                border-left: 3px solid transparent;
+            }
+
+            .menu ul li button:hover {
+                border-left-color: var(--secondary-color);
+            }
+
+            .container {
+                padding: 1.5rem;
+            }
+        }
+
+        /* Status badges */
+        .status {
+            display: inline-block;
+            padding: 0.3rem 0.6rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .status-pending {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+
+        .status-completed {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .status-cancelled {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        /* Leaderboard styles */
+        .leaderboard-rank {
+            font-weight: 700;
+            color: var(--primary-dark);
+        }
+
+        .leaderboard-you {
+            background-color: rgba(241, 143, 1, 0.1);
+            font-weight: 600;
+        }
+    </style>
 </head>
 <body>
     <div class="header">
         <div class="welcome">E-Waste Management System</div>
-        <a href="../index.html"><button id="logoutButton" >Logout</button></a>
+        <a href="../index.html"><button id="logoutButton">Logout</button></a>
     </div>
     <nav class="menu">
         <ul>
-            <li><button onclick="showSection('request')">Request for E-waste collection</button></li>
-            <li><button onclick="showSection('pastReqs')">Past Submission Requests</button></li>
-            <li><button onclick="showSection('rewards')">Rewards Earned</button></li>
+            <li><button onclick="showSection('request')">Request Collection</button></li>
+            <li><button onclick="showSection('pastReqs')">My Requests</button></li>
+            <li><button onclick="showSection('rewards')">My Rewards</button></li>
             <li><button onclick="showSection('leaderBoard')">Leaderboard</button></li>
         </ul>
     </nav>
-    <div class="container" id="request">
-        <h1>Request E-Waste Collection</h1>
-        <form id="requestForm">
-            <label for="name">Name:</label>
-            <input type="text" id="name" name="name" required>
-
-            <label for="phone">Phone Number:</label>
-            <input type="tel" id="phone" name="phone" required>
-
-            <label for="address">Address:</label>
-            <textarea id="address" name="address" required></textarea>
-
-            <label for="pickupDate">Preferred Pickup Date:</label>
-            <input type="date" id="pickupDate" name="pickupDate" required>
-
-            <label for="items">Items to Collect:</label>
-            <textarea id="items" name="items" required></textarea>
-
-            <button type="submit">Submit Request</button>
-        </form>
-    </div>
-    <div class="container" id="pastReqs" style="display:none;">
-        <h1>Past Submission Requests</h1>
-        <table id="pastRequestsTable">
-            <thead>
-                <tr>
-                    <th>Date</th>
-                    <th>Name</th>
-                    <th>Items Collected</th>
-                    <th>Status</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Past requests will be populated here -->
-            </tbody>
-        </table>
-    </div>
-    <div class="container" id="rewards" style="display:none;">
-        <h1>Rewards Earned</h1>
-        <p>Total Points Earned: <span id="totalPoints">0</span></p>
-        <p>Rewards Redeemed:</p>
-        <ul id="redeemedRewards">
-            <!-- Redeemed rewards will be listed here -->
-        </ul>
-    </div>
-    <div class="container" id="leaderBoard" style="display:none;">
-        <h1>Leaderboard</h1>
-        <table id="leaderboardTable">
-            <thead>
-                <tr>
-                    <th>Rank</th>
-                    <th>Name</th>
-                    <th>Points</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Leaderboard data will be populated here -->
-            </tbody>
-        </table>
+    
+    <div class="main-content">
+        <div class="container active" id="request">
+            <h1>Request E-Waste Collection</h1>
+            <form id="requestForm">
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" name="name" required placeholder="Enter your full name">
+                </div>
+                
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <input type="tel" id="phone" name="phone" required placeholder="Enter your phone number">
+                </div>
+                
+                <div class="form-group">
+                    <label for="address">Collection Address</label>
+                    <textarea id="address" name="address" required placeholder="Enter complete address for collection"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="pickupDate">Preferred Pickup Date</label>
+                    <input type="date" id="pickupDate" name="pickupDate" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="items">Items to Collect</label>
+                    <textarea id="items" name="items" required placeholder="List all e-waste items you want to dispose (e.g., 2 laptops, 1 printer, 5 mobile phones)"></textarea>
+                </div>
+                
+                <button type="submit" class="btn btn-block">Submit Collection Request</button>
+            </form>
+        </div>
+        
+        <div class="container" id="pastReqs">
+            <h1>My Past Requests</h1>
+            <table id="pastRequestsTable">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Items</th>
+                        <th>Status</th>
+                        <th>Points</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Sample data - will be populated by JavaScript -->
+                    <tr>
+                        <td>2023-10-15</td>
+                        <td>3 Laptops, 5 Mobiles</td>
+                        <td><span class="status status-completed">Completed</span></td>
+                        <td>120</td>
+                    </tr>
+                    <tr>
+                        <td>2023-09-28</td>
+                        <td>1 Printer, 2 Monitors</td>
+                        <td><span class="status status-completed">Completed</span></td>
+                        <td>85</td>
+                    </tr>
+                    <tr>
+                        <td>2023-09-10</td>
+                        <td>5 Keyboards, 3 Mice</td>
+                        <td><span class="status status-pending">Pending</span></td>
+                        <td>-</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="container" id="rewards">
+            <h1>My Rewards</h1>
+            <div class="points-display">
+                <p>Total Points Earned</p>
+                <div class="points-value" id="totalPoints">1,450</div>
+                <button class="btn">Redeem Rewards</button>
+            </div>
+            
+            <h2 style="margin-top: 2rem; font-size: 1.5rem;">Redeemed Rewards</h2>
+            <div id="redeemedRewards">
+                <!-- Sample data - will be populated by JavaScript -->
+                <div class="reward-item">
+                    <div>
+                        <div class="reward-name">$10 Amazon Gift Card</div>
+                        <div class="reward-date">Redeemed on October 5, 2023</div>
+                    </div>
+                    <div>-500 pts</div>
+                </div>
+                <div class="reward-item">
+                    <div>
+                        <div class="reward-name">Eco-Friendly Water Bottle</div>
+                        <div class="reward-date">Redeemed on August 20, 2023</div>
+                    </div>
+                    <div>-300 pts</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="container" id="leaderBoard">
+            <h1>Community Leaderboard</h1>
+            <p style="text-align: center; margin-bottom: 1.5rem;">Top contributors this month</p>
+            <table id="leaderboardTable">
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>Name</th>
+                        <th>Points</th>
+                        <th>Items Recycled</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Sample data - will be populated by JavaScript -->
+                    <tr>
+                        <td class="leaderboard-rank">1</td>
+                        <td>Sarah Johnson</td>
+                        <td>3,450</td>
+                        <td>42</td>
+                    </tr>
+                    <tr>
+                        <td class="leaderboard-rank">2</td>
+                        <td>Michael Chen</td>
+                        <td>2,980</td>
+                        <td>37</td>
+                    </tr>
+                    <tr class="leaderboard-you">
+                        <td class="leaderboard-rank">3</td>
+                        <td>You</td>
+                        <td>2,750</td>
+                        <td>35</td>
+                    </tr>
+                    <tr>
+                        <td class="leaderboard-rank">4</td>
+                        <td>Emma Williams</td>
+                        <td>2,600</td>
+                        <td>32</td>
+                    </tr>
+                    <tr>
+                        <td class="leaderboard-rank">5</td>
+                        <td>David Kim</td>
+                        <td>2,450</td>
+                        <td>30</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 
     <script>
-    function showSection(sectionId) {
-        const sections = document.querySelectorAll('.container');
-        sections.forEach(section => {
-            section.style.display = section.id === sectionId ? 'block' : 'none';
-        });
-    }
-    
-    // Fetch data from JSON file
-    async function fetchData() {
-        try {
-            const response = await fetch('../data.json');
-            return await response.json();
-        } catch (error) {
-            console.error('Error fetching data:', error);
-            return null;
+        function showSection(sectionId) {
+            // Hide all containers
+            document.querySelectorAll('.container').forEach(container => {
+                container.classList.remove('active');
+            });
+            
+            // Show the selected container
+            document.getElementById(sectionId).classList.add('active');
+            
+            // Update active tab styling
+            document.querySelectorAll('.menu ul li button').forEach(btn => {
+                btn.style.borderBottomColor = 'transparent';
+            });
+            event.target.style.borderBottomColor = 'var(--secondary-color)';
         }
-    }
-    
-    // Populate the page with data
-    document.addEventListener('DOMContentLoaded', async () => {
-        const data = await fetchData();
-        if (!data) return; // Exit if data fetch failed
-    
-        // Populate past requests table
-        const pastRequestsTableBody = document.querySelector('#pastRequestsTable tbody');
-        data.userpastRequests.forEach(request => {
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td>${request.date}</td>
-                <td>${request.name}</td>
-                <td>${request.items}</td>
-                <td>${request.status}</td>
-            `;
-            pastRequestsTableBody.appendChild(row);
+        
+        // Form submission
+        document.getElementById('requestForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Your e-waste collection request has been submitted successfully!');
+            this.reset();
         });
-    
-        // Populate leaderboard table
-        const leaderboardTableBody = document.querySelector('#leaderboardTable tbody');
-        data.leaderboard.forEach(entry => {
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td>${entry.rank}</td>
-                <td>${entry.name}</td>
-                <td>${entry.points}</td>
-            `;
-            leaderboardTableBody.appendChild(row);
+        
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set the first tab as active
+            document.querySelector('.menu ul li:first-child button').style.borderBottomColor = 'var(--secondary-color)';
+            
+            // You would typically fetch data here in a real application
+            // For this example, we're using the sample data in the HTML
         });
-    
-        // Populate rewards section
-        document.querySelector('#totalPoints').textContent = data.rewards.totalPoints;
-        const redeemedRewardsList = document.querySelector('#redeemedRewards');
-        data.rewards.redeemed.forEach(reward => {
-            const listItem = document.createElement('li');
-            listItem.textContent = reward;
-            redeemedRewardsList.appendChild(listItem);
-        });
-    });</script>
+    </script>
 </body>
 </html>
